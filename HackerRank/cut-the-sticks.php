@@ -6,22 +6,16 @@
 
 function cutTheSticks($arr) {
 	$return = [];
-	$iteration = 0;
-	while(1) {
-		if(count($arr) === 0) {
-			break;
-		}
-		$shortest = min(array_keys(array_count_values($arr)));
-		$return[$iteration] = 0;
-		foreach($arr as $index => $stickLength) {
-			$return[$iteration]++;
-			if($stickLength - $shortest <= 0) {
-				unset($arr[$index]);
-			} else {
-				$arr[$index] -= $shortest;
+	while(count($arr) > 0) {
+		$return[] = count($arr);
+		$arr = array_filter(
+			$arr,
+			function($var) use ($arr) {
+				return $var - min($arr) > 0
+					? $var - min($arr)
+					: false;
 			}
-		}
-		$iteration++;
+		);
 	}
 	return $return;
 }
